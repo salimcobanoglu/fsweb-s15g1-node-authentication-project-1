@@ -1,6 +1,7 @@
 // `checkUsernameFree`, `checkUsernameExists` ve `checkPasswordLength` gereklidir (require)
 // `auth-middleware.js` deki middleware fonksiyonları. Bunlara burda ihtiyacınız var!
 
+const router = require("express").Router();
 
 /**
   1 [POST] /api/auth/register { "username": "sue", "password": "1234" }
@@ -25,6 +26,7 @@
   }
  */
 
+router.post("/register"), (req, res, next) => {};
 
 /**
   2 [POST] /api/auth/login { "username": "sue", "password": "1234" }
@@ -42,7 +44,6 @@
   }
  */
 
-
 /**
   3 [GET] /api/auth/logout
 
@@ -59,5 +60,4 @@
   }
  */
 
- 
 // Diğer modüllerde kullanılabilmesi için routerı "exports" nesnesine eklemeyi unutmayın.
