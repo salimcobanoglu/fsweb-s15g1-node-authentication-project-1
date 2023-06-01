@@ -9,12 +9,12 @@ const bcryptjs = require("bcryptjs");
     "message": "Geçemezsiniz!"
   }
 */
-function sinirli(req, res, next) {
+function sinirli(req,res,next) {
   try {
-    if (req.session && req.session.user_id > 0) {
+    if(req.session && req.session.user_id>0){
       next();
-    } else {
-      res.status(401).json({ message: "Geçemezsiniz!" });
+    }else{
+      res.status(401).json({message:"Geçemezsiniz!"})
     }
   } catch (error) {
     next(error);
@@ -30,13 +30,13 @@ function sinirli(req, res, next) {
   }
 */
 //register
-async function usernameBostami(req, res, next) {
+async function usernameBostami(req,res,next) {
   try {
-    let { username } = req.body;
-    const isExist = await userModel.goreBul({ username: username });
-    if (isExist && isExist.length > 0) {
-      res.status(422).json({ message: "Username kullaniliyor" });
-    } else {
+    let {username} = req.body;
+    const isExist = await userModel.goreBul({username:username});
+    if(isExist && isExist.length>0){
+      res.status(422).json({message:"Username kullaniliyor"});
+    }else{
       next();
     }
   } catch (error) {
@@ -53,27 +53,25 @@ async function usernameBostami(req, res, next) {
   }
 */
 //Loginde kullanılacak.
-async function usernameVarmi(req, res, next) {
+async function usernameVarmi(req,res,next) {
   try {
-    let { username } = req.body;
-    const isExist = await userModel.goreBul({ username: username });
-    if (isExist && isExist.length > 0) {
+    let {username} = req.body;
+    const isExist = await userModel.goreBul({username:username});
+    if(isExist && isExist.length>0){
       let user = isExist[0];
-      let isPasswordMatch = bcryptjs.compareSync(
-        req.body.password,
-        user.password
-      );
-      if (isPasswordMatch) {
+      let isPasswordMatch = bcryptjs.compareSync(req.body.password,user.password);
+      if(isPasswordMatch){
         req.dbUser = user;
-        next();
-      } else {
+        next()
+      }
+      else{
         res.status(401).json({
-          message: "Geçersiz kriter",
+          "message": "Geçersiz kriter"
         });
       }
-    } else {
+    }else{
       res.status(401).json({
-        message: "Geçersiz kriter",
+        "message": "Geçersiz kriter"
       });
     }
   } catch (error) {
@@ -90,12 +88,12 @@ async function usernameVarmi(req, res, next) {
   }
 */
 //Login ve register
-function sifreGecerlimi(req, res, next) {
+function sifreGecerlimi(req,res,next) {
   try {
-    let { password } = req.body;
-    if (!password || password.length < 3) {
-      res.status(422).json({ message: "Şifre 3 karakterden fazla olmalı" });
-    } else {
+    let {password} = req.body;
+    if(!password || password.length<3){
+      res.status(422).json({message:"Şifre 3 karakterden fazla olmalı"});
+    }else{
       next();
     }
   } catch (error) {
@@ -103,12 +101,12 @@ function sifreGecerlimi(req, res, next) {
   }
 }
 //Login ve Register
-function checkPayload(req, res, next) {
+function checkPayload(req,res,next){
   try {
-    let { username, password } = req.body;
-    if (!username || !password) {
-      res.status(422).json({ message: "Şifre 3 karakterden fazla olmalı" });
-    } else {
+    let {username,password} = req.body;
+    if(!username || !password) {
+      res.status(422).json({message:"Şifre 3 karakterden fazla olmalı"});
+    }else{
       next();
     }
   } catch (error) {
@@ -118,9 +116,5 @@ function checkPayload(req, res, next) {
 
 // Diğer modüllerde kullanılabilmesi için fonksiyonları "exports" nesnesine eklemeyi unutmayın.
 module.exports = {
-  usernameBostami,
-  checkPayload,
-  sifreGecerlimi,
-  usernameVarmi,
-  sinirli,
-};
+  usernameBostami,checkPayload,sifreGecerlimi,usernameVarmi,sinirli
+}
